@@ -5,7 +5,7 @@ import SubCategoryList from "../components/SubCategoryList";
 const SubCategories = () => {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [subcategories, setSubCategories] = useState([]); 
+  const [subcategories, setSubCategories] = useState([]);
   const [showAddSubCategoryForm, setShowAddSubCategoryForm] = useState(false);
   const [notification, setNotification] = useState("");
 
@@ -13,7 +13,9 @@ const SubCategories = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/admin/categories/");
+        const response = await fetch(
+          "http://20.40.59.234:3000/api/admin/categories/"
+        );
         const data = await response.json();
         setCategories(data);
       } catch (error) {
@@ -28,7 +30,9 @@ const SubCategories = () => {
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/admin/subcategories");
+        const response = await fetch(
+          "http://20.40.59.234:3000/api/admin/subcategories"
+        );
         const data = await response.json();
         setSubCategories(data);
       } catch (error) {
@@ -67,14 +71,16 @@ const SubCategories = () => {
       {showAddSubCategoryForm && (
         <SubCategoryForm
           categories={categories}
-          onSuccess={handleAddSubCategory} 
+          onSuccess={handleAddSubCategory}
         />
       )}
 
-      <SubCategoryList subcategories={subcategories} setSubCategories={setSubCategories} />
+      <SubCategoryList
+        subcategories={subcategories}
+        setSubCategories={setSubCategories}
+      />
     </div>
   );
 };
 
 export default SubCategories;
-

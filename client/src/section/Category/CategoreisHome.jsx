@@ -24,7 +24,9 @@ const CategorySection = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/admin/categories/");
+        const response = await axios.get(
+          "http://20.40.59.234:3000/api/admin/categories/"
+        );
         setCategories(response.data || []);
       } catch (error) {
         console.error("Error fetching categories:", error);

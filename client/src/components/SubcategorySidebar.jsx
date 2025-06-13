@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -19,7 +18,7 @@ const SubcategorySidebar = ({ selectedCategoryId, onSubcategorySelect }) => {
     const fetchSubcategories = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/admin/subcategories/subcategories?categoryId=${selectedCategoryId}`
+          `http://20.40.59.234:3000/api/admin/subcategories/subcategories?categoryId=${selectedCategoryId}`
         );
         const data = res.data?.subcategories || [];
         setSubCategories(data);
@@ -84,7 +83,10 @@ const SubcategorySidebar = ({ selectedCategoryId, onSubcategorySelect }) => {
                 </svg>
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium truncate" title="All Products">
+                <p
+                  className="text-sm font-medium truncate"
+                  title="All Products"
+                >
                   All Products
                 </p>
                 <p className="text-xs text-gray-500">View everything</p>
@@ -113,7 +115,9 @@ const SubcategorySidebar = ({ selectedCategoryId, onSubcategorySelect }) => {
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         e.target.style.display = "none";
-                        e.target.parentNode.querySelector(".fallback").style.display = "flex";
+                        e.target.parentNode.querySelector(
+                          ".fallback"
+                        ).style.display = "flex";
                       }}
                     />
                   ) : null}

@@ -63,13 +63,13 @@
 // //     };
 // //     if (isWishlisted) {
 // //       dispatch(removeFromWishlist(productId));
-// //       await axios.post("http://localhost:3000/api/wishlist/remove", {
+// //       await axios.post("http://20.40.59.234:3000/api/wishlist/remove", {
 // //         email: user.email,
 // //         productId,
 // //       });
 // //     } else {
 // //       dispatch(addToWishlist(product));
-// //       await axios.post("http://localhost:3000/api/wishlist/add", product);
+// //       await axios.post("http://20.40.59.234:3000/api/wishlist/add", product);
 // //     }
 // //   };
 
@@ -88,7 +88,7 @@
 // //       quantity: 1,
 // //     };
 // //     try {
-// //       await axios.post("http://localhost:3000/api/cart/add", product);
+// //       await axios.post("http://20.40.59.234:3000/api/cart/add", product);
 // //       dispatch(add(product));
 // //       showNotification(name);
 // //     } catch (error) {
@@ -294,9 +294,6 @@
 
 // // export default ProductCard;
 
-
-
-
 // import React, { useState, useEffect, useRef } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 // import { FaEllipsisV, FaHeart, FaShare, FaPlus, FaMinus } from "react-icons/fa";
@@ -360,13 +357,13 @@
 //     };
 //     if (isWishlisted) {
 //       dispatch(removeFromWishlist(productId));
-//       await axios.post("http://localhost:3000/api/wishlist/remove", {
+//       await axios.post("http://20.40.59.234:3000/api/wishlist/remove", {
 //         email: user.email,
 //         productId,
 //       });
 //     } else {
 //       dispatch(addToWishlist(product));
-//       await axios.post("http://localhost:3000/api/wishlist/add", product);
+//       await axios.post("http://20.40.59.234:3000/api/wishlist/add", product);
 //     }
 //   };
 
@@ -375,7 +372,7 @@
 //       navigate("/signin");
 //       return;
 //     }
-    
+
 //     // Show quantity input instead of directly adding
 //     setShowQuantityInput(true);
 //   };
@@ -391,9 +388,9 @@
 //       email: user.email,
 //       quantity: customQuantity,
 //     };
-    
+
 //     try {
-//       await axios.post("http://localhost:3000/api/cart/add", product);
+//       await axios.post("http://20.40.59.234:3000/api/cart/add", product);
 //       dispatch(add(product));
 //       setCartQuantity(customQuantity);
 //       setShowQuantityInput(false);
@@ -408,13 +405,13 @@
 
 //   const updateCartQuantity = async (newQuantity) => {
 //     if (newQuantity < 0) return;
-    
+
 //     if (newQuantity === 0) {
 //       setCartQuantity(0);
 //       // Remove from cart API call here
 //       return;
 //     }
-    
+
 //     setCartQuantity(newQuantity);
 //     // Update cart API call here
 //   };
@@ -643,7 +640,6 @@
 
 // export default ProductCard;
 
-
 // import React, { useState, useEffect } from "react";
 // import { useDispatch, useSelector } from "react-redux";
 // import { FaHeart, FaShare, FaPlus, FaMinus } from "react-icons/fa";
@@ -701,13 +697,13 @@
 //     };
 //     if (isWishlisted) {
 //       dispatch(removeFromWishlist(productId));
-//       await axios.post("http://localhost:3000/api/wishlist/remove", {
+//       await axios.post("http://20.40.59.234:3000/api/wishlist/remove", {
 //         email: user.email,
 //         productId,
 //       });
 //     } else {
 //       dispatch(addToWishlist(product));
-//       await axios.post("http://localhost:3000/api/wishlist/add", product);
+//       await axios.post("http://20.40.59.234:3000/api/wishlist/add", product);
 //     }
 //   };
 
@@ -732,7 +728,7 @@
 //     };
 
 //     try {
-//       await axios.post("http://localhost:3000/api/cart/add", product);
+//       await axios.post("http://20.40.59.234:3000/api/cart/add", product);
 //       dispatch(add(product));
 //       setShowQuantityInput(false);
 //       setCustomQuantity(1);
@@ -904,9 +900,6 @@
 
 // export default ProductCard;
 
-
-
-
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaHeart, FaShare, FaPlus, FaMinus } from "react-icons/fa";
@@ -970,13 +963,13 @@ const ProductCard = ({
     try {
       if (isWishlisted) {
         dispatch(removeFromWishlist(productId));
-        await axios.post("http://localhost:3000/api/wishlist/remove", {
+        await axios.post("http://20.40.59.234:3000/api/wishlist/remove", {
           email: user.email,
           productId,
         });
       } else {
         dispatch(addToWishlist(product));
-        await axios.post("http://localhost:3000/api/wishlist/add", product);
+        await axios.post("http://20.40.59.234:3000/api/wishlist/add", product);
       }
     } catch (error) {
       console.error("Wishlist update failed:", error);
@@ -1004,7 +997,7 @@ const ProductCard = ({
     };
 
     try {
-      await axios.post("http://localhost:3000/api/cart/add", product);
+      await axios.post("http://20.40.59.234:3000/api/cart/add", product);
       dispatch(add(product));
       setShowQuantityInput(false);
       setCustomQuantity(1);
@@ -1179,4 +1172,3 @@ const ProductCard = ({
 };
 
 export default ProductCard;
-

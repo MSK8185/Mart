@@ -1,7 +1,6 @@
 // import React, { useState, useEffect, useRef } from 'react';
 // // import axios from 'axios';
 
-
 // const ChatSupport = () => {
 //   const [isOpen, setIsOpen] = useState(false);
 //   const [messages, setMessages] = useState([]);
@@ -13,7 +12,7 @@
 //     useEffect(() => {
 //       const fetchMessages = async () => {
 //         try {
-//           const response = await axios.get(`http://localhost:8081/api/chat/${userId}`);
+//           const response = await axios.get(`http://20.40.59.234:8081/api/chat/${userId}`);
 //           setMessages(response.data.messages);
 //         } catch (error) {
 //           console.error('Error fetching messages:', error);
@@ -48,7 +47,7 @@
 
 //       // Save user message to the database
 //       try {
-//         await axios.post(`http://localhost:8081/api/chat/${userId}/message`, {
+//         await axios.post(`http://20.40.59.234:8081/api/chat/${userId}/message`, {
 //           sender: 'user',
 //           content: newMessage,
 //         });
@@ -58,16 +57,14 @@
 //     }
 //   };
 
-
 //   const handleClearChat = async () => {
 //     try {
-//       await axios.delete(`http://localhost:8081/api/chat/${userId}/clear`); // Endpoint to clear chat messages
+//       await axios.delete(`http://20.40.59.234:8081/api/chat/${userId}/clear`); // Endpoint to clear chat messages
 //       setMessages([]); // Clear local messages
 //     } catch (error) {
 //       console.error('Error clearing messages:', error);
 //     }
 //   };
-
 
 //   const toggleChat = () => {
 //     setIsOpen(!isOpen);
@@ -131,29 +128,6 @@
 
 // export default ChatSupport;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import React, { useState, useEffect, useRef } from 'react';
 // import axios from 'axios';
 
@@ -168,7 +142,7 @@
 //   useEffect(() => {
 //     const fetchMessages = async () => {
 //       try {
-//         const response = await axios.get(`http://localhost:5000/api/chat/${userId}`);
+//         const response = await axios.get(`http://20.40.59.234:5000/api/chat/${userId}`);
 //         setMessages(response.data.messages);
 //       } catch (error) {
 //         console.error('Error fetching messages:', error);
@@ -196,7 +170,7 @@
 //       setNewMessage('');
 
 //       try {
-//         await axios.post(`http://localhost:5000/api/chat/${userId}/message`, {
+//         await axios.post(`http://20.40.59.234:5000/api/chat/${userId}/message`, {
 //           sender: 'user',
 //           content: newMessage,
 //         });
@@ -208,7 +182,7 @@
 
 //   const handleClearChat = async () => {
 //     try {
-//       await axios.delete(`http://localhost:5000/api/chat/${userId}/clear`);
+//       await axios.delete(`http://20.40.59.234:5000/api/chat/${userId}/clear`);
 //       setMessages([]);
 //     } catch (error) {
 //       console.error('Error clearing messages:', error);
@@ -284,25 +258,7 @@
 
 // export default ChatSupport;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import React, { useState, useEffect, useRef } from 'react';
-
 
 // const ChatSupport = () => {
 //   const [isOpen, setIsOpen] = useState(false);
@@ -310,10 +266,6 @@
 //   const [newMessage, setNewMessage] = useState('');
 //   const userId = 'SH8888'; // Replace with actual user ID
 //   const chatEndRef = useRef(null);
-
-
-
-
 
 //   const handleSendMessage = async () => {
 //     if (newMessage.trim()) {
@@ -325,13 +277,11 @@
 
 //       setNewMessage('');
 
-
- 
 //     }
 //   };
 
 //   const handleClearChat = async () => {
- 
+
 //   };
 
 //   const toggleChat = () => {
@@ -402,13 +352,6 @@
 // };
 
 // export default ChatSupport;
-
-
-
-
-
-
-
 
 //3
 // import React, { useState, useRef } from 'react';
@@ -502,10 +445,6 @@
 // };
 
 // export default ChatSupport;
-
-
-
-
 
 //4
 // import React, { useState, useRef } from 'react';
@@ -604,57 +543,14 @@
 
 // export default ChatSupport;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import React, { useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+import React, { useState, useRef } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const ChatSupport = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
   const chatEndRef = useRef(null);
 
   // Access user email from Redux store
@@ -663,19 +559,27 @@ const ChatSupport = () => {
   const handleSendMessage = async () => {
     if (newMessage.trim()) {
       const now = new Date();
-      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const time = now.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
 
-      const userMessage = { sender: 'user', content: newMessage, time, userEmail };
+      const userMessage = {
+        sender: "user",
+        content: newMessage,
+        time,
+        userEmail,
+      };
 
       // Send message to the server
       try {
-        await axios.post('/api/messages', { message: userMessage });
+        await axios.post("/api/messages", { message: userMessage });
         setMessages((prevMessages) => [...prevMessages, userMessage]);
       } catch (error) {
-        console.error('Error sending message:', error);
+        console.error("Error sending message:", error);
       }
 
-      setNewMessage('');
+      setNewMessage("");
     }
   };
 
@@ -696,14 +600,27 @@ const ChatSupport = () => {
         <div className="fixed bottom-20 right-4 w-80 h-96 bg-white border border-gray-200 rounded-xl shadow-lg flex flex-col overflow-hidden">
           <header className="flex flex-col items-center p-4 bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-t-xl">
             <h2 className="text-lg font-semibold">Chat Support</h2>
-            {userEmail && <p className="text-red-500 mt-1 text-sm font-medium">{userEmail}</p>}
+            {userEmail && (
+              <p className="text-red-500 mt-1 text-sm font-medium">
+                {userEmail}
+              </p>
+            )}
           </header>
 
           <div className="flex-1 p-4 space-y-3 overflow-y-auto bg-gray-50">
             {messages.map((msg, index) => (
-              <div key={index} className={`p-3 rounded-lg max-w-xs ${msg.sender === 'user' ? 'bg-blue-100 self-end' : 'bg-indigo-100 self-start'}`}>
+              <div
+                key={index}
+                className={`p-3 rounded-lg max-w-xs ${
+                  msg.sender === "user"
+                    ? "bg-blue-100 self-end"
+                    : "bg-indigo-100 self-start"
+                }`}
+              >
                 <p className="text-sm">{msg.content}</p>
-                <span className="block text-xs text-gray-500 mt-1">{msg.time}</span>
+                <span className="block text-xs text-gray-500 mt-1">
+                  {msg.time}
+                </span>
               </div>
             ))}
             <div ref={chatEndRef} />
@@ -716,7 +633,7 @@ const ChatSupport = () => {
               placeholder="Type a message..."
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+              onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
             />
             <button
               onClick={handleSendMessage}

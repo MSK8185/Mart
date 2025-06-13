@@ -7,7 +7,7 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 // import SignUpbg from "../../assets/images/signUpbg.png";
-import SignUpbg from "../../assets/images/signupbg.png"
+import SignUpbg from "../../assets/images/signupbg.png";
 import axios from "axios";
 
 const SignIn = () => {
@@ -27,12 +27,15 @@ const SignIn = () => {
 
     try {
       if (email === "admin@123") {
-        const response = await axios.post("http://localhost:3000/api/admin/login", { email, password });
+        const response = await axios.post(
+          "http://20.40.59.234:3000/api/admin/login",
+          { email, password }
+        );
         const { token, route } = response.data;
         sessionStorage.setItem("admintoken", token);
         navigate(route);
         return;
-      }else {
+      } else {
         const userCredential = await signInWithEmailAndPassword(
           auth,
           email,

@@ -7,7 +7,9 @@ const TotalCustomers = () => {
   useEffect(() => {
     const fetchTotalUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/total-users");
+        const response = await axios.get(
+          "http://20.40.59.234:3000/api/total-users"
+        );
         setTotalCustomers(response.data.totalUsers);
       } catch (error) {
         console.error("Error fetching total users:", error);

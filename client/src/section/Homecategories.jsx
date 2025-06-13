@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -20,7 +19,7 @@ const CategoriesHome = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/admin/categories/"
+          "http://20.40.59.234:3000/api/admin/categories/"
         );
         setCategories(response.data || []);
       } catch (error) {

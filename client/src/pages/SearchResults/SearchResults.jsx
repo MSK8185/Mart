@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import ProductCard from '../../components/ProductCard';
-
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import ProductCard from "../../components/ProductCard";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -9,10 +8,10 @@ const useQuery = () => {
 
 const SearchResults = () => {
   const query = useQuery();
-  const searchTerm = query.get('q');
+  const searchTerm = query.get("q");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (searchTerm) {
@@ -22,12 +21,14 @@ const SearchResults = () => {
 
   const fetchProducts = async () => {
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
-      const response = await fetch(`http://localhost:3000/api/search?q=${searchTerm}`);
+      const response = await fetch(
+        `http://20.40.59.234:3000/api/search?q=${searchTerm}`
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch search results');
+        throw new Error("Failed to fetch search results");
       }
 
       const data = await response.json();
@@ -50,16 +51,15 @@ const SearchResults = () => {
         {products.length > 0 ? (
           <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {products.map((product) => (
-       
               <ProductCard
-              key={product._id}
-              imgURL={product.image}
-              name={product.name}
-              quantity={product.quantity}
-              price={product.price}
-              originalprice={product.originalprice}
-              productId={product.productId} 
-            />
+                key={product._id}
+                imgURL={product.image}
+                name={product.name}
+                quantity={product.quantity}
+                price={product.price}
+                originalprice={product.originalprice}
+                productId={product.productId}
+              />
             ))}
           </ul>
         ) : (
@@ -67,11 +67,7 @@ const SearchResults = () => {
         )}
       </div>
     </div>
-    
   );
 };
 
 export default SearchResults;
-
-
-

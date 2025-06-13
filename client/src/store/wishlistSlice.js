@@ -2,43 +2,57 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { auth } from "../firebaseConfig";
 
-const API_URL = "http://localhost:3000/wishlist";
+const API_URL = "http://20.40.59.234:3000/wishlist";
 
-export const fetchWishlist = createAsyncThunk("wishlist/fetchWishlist", async () => {
-  const userEmail = auth.currentUser?.email || "";
-  
-  if (!userEmail) {
-    throw new Error("User email is missing");
+export const fetchWishlist = createAsyncThunk(
+  "wishlist/fetchWishlist",
+  async () => {
+    const userEmail = auth.currentUser?.email || "";
+
+    if (!userEmail) {
+      throw new Error("User email is missing");
+    }
+
+    const response = await axios.get(`${API_URL}/${userEmail}`);
+    return response.data;
   }
+);
 
-  const response = await axios.get(`${API_URL}/${userEmail}`);
-  return response.data;
-});
+export const addToWishlist = createAsyncThunk(
+  "wishlist/addToWishlist",
+  async (product) => {
+    const userEmail = auth.currentUser?.email || null;
 
+    if (!userEmail) {
+      throw new Error("User email is required.");
+    }
 
-export const addToWishlist = createAsyncThunk("wishlist/addToWishlist", async (product) => {
-  const userEmail = auth.currentUser?.email || null;
+    const response = await axios.post(`${API_URL}/add`, {
+      ...product,
+      email: userEmail,
+    });
 
-  if (!userEmail) {
-    throw new Error("User email is required.");
+    return response.data.wishlist;
   }
+);
 
-  const response = await axios.post(`${API_URL}/add`, { ...product, email: userEmail });
+export const removeFromWishlist = createAsyncThunk(
+  "wishlist/removeFromWishlist",
+  async (productId) => {
+    const userEmail = auth.currentUser?.email || null;
 
-  return response.data.wishlist;
-});
+    if (!userEmail) {
+      throw new Error("User email is required.");
+    }
 
-export const removeFromWishlist = createAsyncThunk("wishlist/removeFromWishlist", async (productId) => {
-  const userEmail = auth.currentUser?.email || null;
+    const response = await axios.post(`${API_URL}/remove`, {
+      email: userEmail,
+      productId,
+    });
 
-  if (!userEmail) {
-    throw new Error("User email is required.");
+    return response.data.wishlist;
   }
-
-  const response = await axios.post(`${API_URL}/remove`, { email: userEmail, productId });
-
-  return response.data.wishlist;
-});
+);
 
 const wishlistSlice = createSlice({
   name: "wishlist",

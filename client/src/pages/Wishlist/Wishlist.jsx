@@ -15,7 +15,10 @@ const Wishlist = () => {
   const user = auth.currentUser;
 
   const [quantityStates, setQuantityStates] = useState({});
-  const [notification, setNotification] = useState({ visible: false, productName: "" });
+  const [notification, setNotification] = useState({
+    visible: false,
+    productName: "",
+  });
 
   useEffect(() => {
     dispatch(fetchWishlist());
@@ -25,7 +28,9 @@ const Wishlist = () => {
     if (!product) return 0;
     let unitPrice = product.price;
     if (product.bulkPricing?.length) {
-      const sorted = [...product.bulkPricing].sort((a, b) => a.minQty - b.minQty);
+      const sorted = [...product.bulkPricing].sort(
+        (a, b) => a.minQty - b.minQty
+      );
       for (let tier of sorted) {
         if (quantity >= tier.minQty) {
           unitPrice = tier.pricePerUnit;
@@ -37,7 +42,9 @@ const Wishlist = () => {
 
   const fetchProductDetails = async (productId) => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/products/${productId}`);
+      const res = await axios.get(
+        `http://20.40.59.234:3000/api/products/${productId}`
+      );
       return res.data;
     } catch (err) {
       console.error("Fetch error:", err);
@@ -48,14 +55,14 @@ const Wishlist = () => {
   const toggleQuantityInput = (productId) => {
     setQuantityStates((prev) => ({
       ...prev,
-      [productId]: { showInput: true, quantity: 1, isAdding: false }
+      [productId]: { showInput: true, quantity: 1, isAdding: false },
     }));
   };
 
   const updateQuantity = (productId, quantity) => {
     setQuantityStates((prev) => ({
       ...prev,
-      [productId]: { ...prev[productId], quantity: Math.max(1, quantity) }
+      [productId]: { ...prev[productId], quantity: Math.max(1, quantity) },
     }));
   };
 
@@ -98,10 +105,10 @@ const Wishlist = () => {
     try {
       setQuantityStates((prev) => ({
         ...prev,
-        [productId]: { ...prev[productId], isAdding: true }
+        [productId]: { ...prev[productId], isAdding: true },
       }));
 
-      await axios.post("http://localhost:3000/api/cart/add", cartItem);
+      await axios.post("http://20.40.59.234:3000/api/cart/add", cartItem);
       dispatch(add(cartItem));
       dispatch(removeFromWishlist(productId)); // ✅ Remove from wishlist
       showNotification(product.name);
@@ -114,7 +121,10 @@ const Wishlist = () => {
 
   const showNotification = (name) => {
     setNotification({ visible: true, productName: name });
-    setTimeout(() => setNotification({ visible: false, productName: "" }), 3000);
+    setTimeout(
+      () => setNotification({ visible: false, productName: "" }),
+      3000
+    );
   };
 
   return (
@@ -130,7 +140,10 @@ const Wishlist = () => {
 
             const discount =
               item.originalprice && item.price
-                ? Math.round(((item.originalprice - item.price) / item.originalprice) * 100)
+                ? Math.round(
+                    ((item.originalprice - item.price) / item.originalprice) *
+                      100
+                  )
                 : 0;
 
             return (
@@ -175,14 +188,20 @@ const Wishlist = () => {
                 {/* Info */}
                 <div className="px-3 pb-4 flex-1 flex flex-col">
                   <div className="mb-2">
-                    <h3 className="font-medium text-gray-900 text-sm leading-tight mb-1 line-clamp-2">{item.name}</h3>
+                    <h3 className="font-medium text-gray-900 text-sm leading-tight mb-1 line-clamp-2">
+                      {item.name}
+                    </h3>
                     <p className="text-xs text-gray-500">{item.quantity}</p>
                   </div>
 
                   <div className="flex items-center justify-between mb-3">
-                    <span className="font-bold text-gray-900 text-sm">₹{item.price}</span>
+                    <span className="font-bold text-gray-900 text-sm">
+                      ₹{item.price}
+                    </span>
                     {item.originalprice && (
-                      <span className="text-xs text-gray-400 line-through">₹{item.originalprice}</span>
+                      <span className="text-xs text-gray-400 line-through">
+                        ₹{item.originalprice}
+                      </span>
                     )}
                   </div>
 
@@ -190,7 +209,9 @@ const Wishlist = () => {
                   {showInput ? (
                     <div className="w-full bg-white border border-blue-400 rounded-md p-2">
                       <div className="text-center mb-2">
-                        <p className="text-xs font-medium text-gray-700 mb-2">Select Quantity</p>
+                        <p className="text-xs font-medium text-gray-700 mb-2">
+                          Select Quantity
+                        </p>
                         <div className="flex items-center justify-center gap-2">
                           <button
                             onClick={(e) => {
@@ -207,7 +228,10 @@ const Wishlist = () => {
                             onChange={(e) => {
                               e.stopPropagation();
                               const val = parseInt(e.target.value);
-                              updateQuantity(item.productId, isNaN(val) || val < 1 ? 1 : val);
+                              updateQuantity(
+                                item.productId,
+                                isNaN(val) || val < 1 ? 1 : val
+                              );
                             }}
                             className="w-10 h-6 text-center border border-blue-400 rounded text-xs font-semibold text-blue-600"
                             min="1"

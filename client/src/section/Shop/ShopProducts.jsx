@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback, useLayoutEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useLayoutEffect,
+} from "react";
 import ProductCard from "../../components/ProductCard";
 import { FaHeart } from "react-icons/fa";
 import { BsFillCartCheckFill } from "react-icons/bs";
@@ -15,13 +21,17 @@ const ShopProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 32;
 
-  const [toast, setToast] = useState({ visible: false, message: "", type: "cart" });
+  const [toast, setToast] = useState({
+    visible: false,
+    message: "",
+    type: "cart",
+  });
   const cardRefs = useRef([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/products/get");
+        const res = await fetch("http://20.40.59.234:3000/api/products/get");
         if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();
         setProducts(data);
@@ -103,7 +113,8 @@ const ShopProducts = () => {
   }, []);
 
   if (loading) return <div className="text-center py-20">Loading...</div>;
-  if (error) return <div className="text-center text-red-500 py-20">Error: {error}</div>;
+  if (error)
+    return <div className="text-center text-red-500 py-20">Error: {error}</div>;
 
   return (
     <>
@@ -166,7 +177,9 @@ const ShopProducts = () => {
         <div className="flex justify-center mt-16 flex-wrap gap-2">
           <button
             className={`px-4 py-2 ${
-              currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-blue-200 hover:bg-blue-300"
+              currentPage === 1
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-200 hover:bg-blue-300"
             } rounded transition`}
             disabled={currentPage === 1}
             onClick={handlePrevPage}

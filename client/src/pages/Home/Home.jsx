@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/banners/get");
+        const res = await axios.get("http://20.40.59.234:3000/api/banners/get");
         setSlides(res.data.slice(0, 4)); // Limit to 4 banners
       } catch (err) {
         console.error("Failed to fetch banners", err);
@@ -34,7 +34,9 @@ const Home = () => {
       </section>
 
       {/* Products Section */}
-      <section className="mt-4"> {/* Reduced from mt-12 to mt-4 */}
+      <section className="mt-4">
+        {" "}
+        {/* Reduced from mt-12 to mt-4 */}
         <ProductsHome />
       </section>
 

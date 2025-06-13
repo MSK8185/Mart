@@ -4,28 +4,28 @@ import { useParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
 
 const SubcategoryProducts = () => {
-  const { subcategoryId } = useParams(); 
+  const { subcategoryId } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        console.log("Subcategory ID:", subcategoryId); 
+        console.log("Subcategory ID:", subcategoryId);
         const response = await axios.get(
-          `http://localhost:3000/api/products/subcategory/${subcategoryId}` 
+          `http://20.40.59.234:3000/api/products/subcategory/${subcategoryId}`
         );
-        console.log("API Response:", response.data); 
-        setProducts(response.data.products || []); 
+        console.log("API Response:", response.data);
+        setProducts(response.data.products || []);
       } catch (error) {
-        console.error("Error fetching products:", error.message); 
+        console.error("Error fetching products:", error.message);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     if (subcategoryId) {
-      fetchProducts(); 
+      fetchProducts();
     } else {
       console.error("Subcategory ID is missing or invalid.");
     }

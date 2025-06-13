@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { auth } from "../../firebaseConfig"; 
+import { auth } from "../../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 
 const ProfileInformation = () => {
@@ -29,7 +29,7 @@ const ProfileInformation = () => {
     if (userEmail) {
       setLoading(true);
       axios
-        .get(`http://localhost:3000/api/profile/${userEmail}`)
+        .get(`http://20.40.59.234:3000/api/profile/${userEmail}`)
         .then((res) => {
           if (res.data) {
             setProfile({
@@ -87,16 +87,18 @@ const ProfileInformation = () => {
       const endpoint = profile.firstName ? "update" : "create";
       const response =
         endpoint === "update"
-          ? await axios.put("http://localhost:3000/api/profile/update", {
+          ? await axios.put("http://20.40.59.234:3000/api/profile/update", {
               email: userEmail,
               ...profile,
             })
-          : await axios.post("http://localhost:3000/api/profile/create", {
+          : await axios.post("http://20.40.59.234:3000/api/profile/create", {
               email: userEmail,
               ...profile,
             });
       console.log(response.data);
-      triggerModal(`Profile ${endpoint === "update" ? "updated" : "created"} successfully!`);
+      triggerModal(
+        `Profile ${endpoint === "update" ? "updated" : "created"} successfully!`
+      );
       setEditMode(false);
     } catch (error) {
       console.error("Error saving profile information:", error);
@@ -106,12 +108,19 @@ const ProfileInformation = () => {
   };
 
   const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete your profile information?")) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete your profile information?"
+      )
+    ) {
       try {
         setLoading(true);
-        const res = await axios.delete("http://localhost:3000/api/profile/delete", {
-          data: { email: userEmail },
-        });
+        const res = await axios.delete(
+          "http://20.40.59.234:3000/api/profile/delete",
+          {
+            data: { email: userEmail },
+          }
+        );
         console.log(res.data);
         setProfile({
           firstName: "",
@@ -146,12 +155,15 @@ const ProfileInformation = () => {
       )}
 
       <h2 className="text-2xl font-semibold mb-6">Personal Information</h2>
-      
+
       {/* Profile Information Section */}
       <div className="bg-green-200 shadow-lg p-6 rounded-lg mb-6">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-semibold">Profile Information</h3>
-          <button onClick={() => setEditMode(!editMode)} className="text-blue-600 font-medium">
+          <button
+            onClick={() => setEditMode(!editMode)}
+            className="text-blue-600 font-medium"
+          >
             {editMode ? "Cancel" : "Edit"}
           </button>
         </div>
@@ -180,7 +192,7 @@ const ProfileInformation = () => {
               />
             </div>
           </div>
-          
+
           <div>
             <label className="block text-gray-700 mb-2">Your Gender</label>
             <div className="flex items-center space-x-6">
@@ -270,10 +282,17 @@ const ProfileInformation = () => {
 
           {editMode && (
             <div className="flex space-x-6 mt-6">
-              <button type="submit" className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+              <button
+                type="submit"
+                className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+              >
                 Save
               </button>
-              <button type="button" onClick={handleDelete} className="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+              >
                 Delete
               </button>
             </div>

@@ -8,16 +8,16 @@ import { CategoryBannerImage } from "../assets/images";
 const CategoryPage = () => {
   const { categoryName } = useParams();
   const [categoryId, setCategoryId] = useState(null);
-  const [subcategoryId, setSubcategoryId] = useState(null); 
+  const [subcategoryId, setSubcategoryId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
-  const [categoryDisplayName, setCategoryDisplayName] = useState(categoryName); 
+  const [categoryDisplayName, setCategoryDisplayName] = useState(categoryName);
 
   useEffect(() => {
     const fetchCategoryId = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/admin/categories`
+          `http://20.40.59.234:3000/api/admin/categories`
         );
         const category = response.data.find(
           (cat) => cat.name.toLowerCase() === categoryName.toLowerCase()
@@ -41,9 +41,9 @@ const CategoryPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        let url = `http://localhost:3000/api/products/category/${categoryName}`;
+        let url = `http://20.40.59.234:3000/api/products/category/${categoryName}`;
         if (subcategoryId) {
-          url = `http://localhost:3000/api/products/subcategory/${subcategoryId}`;
+          url = `http://20.40.59.234:3000/api/products/subcategory/${subcategoryId}`;
         }
         const response = await axios.get(url);
         setProducts(response.data.products || []);
@@ -65,8 +65,6 @@ const CategoryPage = () => {
     return <p>Category not found!</p>;
   }
 
-
-
   return (
     <div>
       {/* Banner Section */}
@@ -77,9 +75,7 @@ const CategoryPage = () => {
             alt="banner"
             className="w-full h-full object-cover"
           />
-          <div
-            className="font-poppins font-500 text-custom-48 absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-10 text-black"
-          >
+          <div className="font-poppins font-500 text-custom-48 absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-10 text-black">
             <h1 className="text-4xl font-bold">{categoryName}</h1>
             <p className="text-sm mt-2">
               Home <span className="mx-1">&gt;</span> {categoryName}
@@ -98,7 +94,7 @@ const CategoryPage = () => {
           ) : (
             <ProductListc
               products={products}
-              categoryName={categoryDisplayName} 
+              categoryName={categoryDisplayName}
             />
           )}
         </div>

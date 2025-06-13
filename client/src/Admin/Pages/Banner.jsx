@@ -33,7 +33,7 @@ const Banner = () => {
 
   const fetchBanners = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/banners/get");
+      const res = await axios.get("http://20.40.59.234:3000/api/banners/get");
       setBanners(Array.isArray(res.data) ? res.data : res.data.banners || []);
     } catch (err) {
       console.error("Error fetching banners", err);
@@ -65,7 +65,7 @@ const Banner = () => {
 
     try {
       setLoading(true);
-      await axios.post("http://localhost:3000/api/banners/upload", formData);
+      await axios.post("http://20.40.59.234:3000/api/banners/upload", formData);
       setTitle("");
       setImage(null);
       fetchBanners();
@@ -79,7 +79,7 @@ const Banner = () => {
 
   const handleDeleteBanner = async (public_id) => {
     try {
-      await axios.delete("http://localhost:3000/api/banners/delete", {
+      await axios.delete("http://20.40.59.234:3000/api/banners/delete", {
         data: { public_id },
       });
       fetchBanners();
@@ -115,15 +115,15 @@ const Banner = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <h2 className="text-3xl font-bold text-gray-800 mb-6">🎯 Manage Banners</h2>
+      <h2 className="text-3xl font-bold text-gray-800 mb-6">
+        🎯 Manage Banners
+      </h2>
 
       {/* Form */}
       <form
         onSubmit={handleAddBanner}
         className="mb-10 bg-white shadow-md p-6 rounded-xl space-y-4 border"
       >
-
-
         <div
           ref={dropRef}
           onDragOver={handleDragOver}
@@ -142,24 +142,23 @@ const Banner = () => {
           />
         </div>
 
-{image && (
-  <div className="mt-4 relative group">
-    <img
-      src={URL.createObjectURL(image)}
-      alt="Preview"
-      className="w-full max-h-40 object-contain rounded-md shadow"
-    />
-    <button
-      type="button"
-      onClick={() => setImage(null)}
-      className="absolute top-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
-    >
-      ✕ Remove
-    </button>
-    <p className="text-xs text-green-600 mt-2">{image.name}</p>
-  </div>
-)}
-
+        {image && (
+          <div className="mt-4 relative group">
+            <img
+              src={URL.createObjectURL(image)}
+              alt="Preview"
+              className="w-full max-h-40 object-contain rounded-md shadow"
+            />
+            <button
+              type="button"
+              onClick={() => setImage(null)}
+              className="absolute top-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              ✕ Remove
+            </button>
+            <p className="text-xs text-green-600 mt-2">{image.name}</p>
+          </div>
+        )}
 
         <button
           type="submit"
@@ -205,9 +204,15 @@ const Banner = () => {
       {showConfirm && bannerToDelete && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">🗑 Confirm Deletion</h3>
-            <p className="mb-2 text-gray-700">Are you sure you want to delete this banner?</p>
-            <p className="text-xs text-gray-500 break-all mb-4">{bannerToDelete.url}</p>
+            <h3 className="text-xl font-semibold mb-4 text-gray-800">
+              🗑 Confirm Deletion
+            </h3>
+            <p className="mb-2 text-gray-700">
+              Are you sure you want to delete this banner?
+            </p>
+            <p className="text-xs text-gray-500 break-all mb-4">
+              {bannerToDelete.url}
+            </p>
             <div className="flex justify-end space-x-4">
               <button
                 onClick={() => {

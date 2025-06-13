@@ -7,7 +7,9 @@ const AverageRevenue = () => {
   useEffect(() => {
     const fetchAverageRevenue = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/revenue/average-revenue");
+        const response = await axios.get(
+          "http://20.40.59.234:3000/api/revenue/average-revenue"
+        );
         setAverageRevenue(response.data.averageRevenue);
       } catch (error) {
         console.error("Error fetching average revenue:", error);

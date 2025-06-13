@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios"; 
+import axios from "axios";
 
 const LowStockProducts = () => {
   const [lowStockCount, setLowStockCount] = useState(0);
@@ -9,7 +9,9 @@ const LowStockProducts = () => {
   useEffect(() => {
     const fetchLowStockProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/products/low-stock?threshold=5");
+        const response = await axios.get(
+          "http://20.40.59.234:3000/api/products/low-stock?threshold=5"
+        );
         setLowStockCount(response.data.lowStockProducts.length);
       } catch (err) {
         setError("Failed to fetch low-stock products");

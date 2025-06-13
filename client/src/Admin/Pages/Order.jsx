@@ -8,7 +8,9 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/admin/orders");
+        const response = await axios.get(
+          "http://20.40.59.234:3000/api/admin/orders"
+        );
         console.log("Orders fetched from backend:", response.data);
         setOrders(response.data.items || []);
         setLoading(false);
@@ -41,9 +43,15 @@ const Orders = () => {
               {orders.map((order) => (
                 <tr key={order.id} className="hover:bg-gray-100">
                   <td className="p-3 border border-gray-300">{order.id}</td>
-                  <td className="p-3 border border-gray-300">{(order.amount / 100).toFixed(2)}</td>
-                  <td className="p-3 border border-gray-300">{order.currency}</td>
-                  <td className="p-3 border border-gray-300 text-green-600 font-medium">{order.status}</td>
+                  <td className="p-3 border border-gray-300">
+                    {(order.amount / 100).toFixed(2)}
+                  </td>
+                  <td className="p-3 border border-gray-300">
+                    {order.currency}
+                  </td>
+                  <td className="p-3 border border-gray-300 text-green-600 font-medium">
+                    {order.status}
+                  </td>
                 </tr>
               ))}
             </tbody>

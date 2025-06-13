@@ -39,7 +39,7 @@
 //   const fetchSubcategories = async () => {
 //     try {
 //       const response = await axios.get(
-//         "http://localhost:3000/api/admin/subcategories"
+//         "http://20.40.59.234:3000/api/admin/subcategories"
 //       );
 //       setSubCategories(response.data);
 //     } catch (error) {
@@ -50,7 +50,7 @@
 //   const fetchCategories = async () => {
 //     try {
 //       const response = await axios.get(
-//         "http://localhost:3000/api/admin/categories"
+//         "http://20.40.59.234:3000/api/admin/categories"
 //       );
 //       setCategories(response.data);
 //     } catch (error) {
@@ -75,7 +75,7 @@
 //     if (!contactToDelete) return;
 //     try {
 //       await axios.delete(
-//         `http://localhost:3000/api/admin/subcategories/${contactToDelete._id}`
+//         `http://20.40.59.234:3000/api/admin/subcategories/${contactToDelete._id}`
 //       );
 //       setSubCategories((prev) =>
 //         prev.filter((sub) => sub._id !== contactToDelete._id)
@@ -97,7 +97,7 @@
 //       if (editImage) formData.append("image", editImage);
 
 //       const response = await axios.put(
-//         `http://localhost:3000/api/admin/subcategories/${subcategoryToEdit._id}`,
+//         `http://20.40.59.234:3000/api/admin/subcategories/${subcategoryToEdit._id}`,
 //         formData,
 //         {
 //           headers: { "Content-Type": "multipart/form-data" },
@@ -250,7 +250,6 @@
 //   </button>
 // </div>
 
-
 //       {/* Edit Modal */}
 //       {editModalVisible && (
 //         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -306,7 +305,6 @@
 
 // export default SubCategoryList;
 
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ConfirmModal from "../../components/ConfirmModal";
@@ -336,7 +334,9 @@ const SubCategoryList = () => {
 
   const fetchSubcategories = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/admin/subcategories");
+      const response = await axios.get(
+        "http://20.40.59.234:3000/api/admin/subcategories"
+      );
       setSubCategories(response.data);
     } catch (error) {
       console.error("Error fetching subcategories:", error);
@@ -345,7 +345,9 @@ const SubCategoryList = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/admin/categories");
+      const response = await axios.get(
+        "http://20.40.59.234:3000/api/admin/categories"
+      );
       setCategories(response.data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -368,7 +370,9 @@ const SubCategoryList = () => {
   const confirmDeleteContact = async () => {
     if (!contactToDelete) return;
     try {
-      await axios.delete(`http://localhost:3000/api/admin/subcategories/${contactToDelete._id}`);
+      await axios.delete(
+        `http://20.40.59.234:3000/api/admin/subcategories/${contactToDelete._id}`
+      );
       setSubCategories((prev) =>
         prev.filter((sub) => sub._id !== contactToDelete._id)
       );
@@ -389,7 +393,7 @@ const SubCategoryList = () => {
       if (editImage) formData.append("image", editImage);
 
       const response = await axios.put(
-        `http://localhost:3000/api/admin/subcategories/${subcategoryToEdit._id}`,
+        `http://20.40.59.234:3000/api/admin/subcategories/${subcategoryToEdit._id}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -414,15 +418,23 @@ const SubCategoryList = () => {
     }
   };
 
-  const filteredSubcategories = subcategories.filter((subcategory) =>
-    subcategory.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    subcategory.category?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredSubcategories = subcategories.filter(
+    (subcategory) =>
+      subcategory.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      subcategory.category?.name
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase())
   );
 
-  const totalPages = Math.ceil(filteredSubcategories.length / subcategoriesPerPage);
+  const totalPages = Math.ceil(
+    filteredSubcategories.length / subcategoriesPerPage
+  );
   const indexOfLast = currentPage * subcategoriesPerPage;
   const indexOfFirst = indexOfLast - subcategoriesPerPage;
-  const currentSubcategories = filteredSubcategories.slice(indexOfFirst, indexOfLast);
+  const currentSubcategories = filteredSubcategories.slice(
+    indexOfFirst,
+    indexOfLast
+  );
 
   const handleNext = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
@@ -446,7 +458,9 @@ const SubCategoryList = () => {
         onConfirm={confirmDeleteContact}
         title="Delete Subcategory"
         message={
-          contactToDelete ? `Are you sure you want to delete "${contactToDelete.name}"?` : ""
+          contactToDelete
+            ? `Are you sure you want to delete "${contactToDelete.name}"?`
+            : ""
         }
         confirmText="Delete"
         cancelText="Cancel"
@@ -477,7 +491,9 @@ const SubCategoryList = () => {
             {currentSubcategories.map((subcategory) => (
               <tr key={subcategory._id} className="border-t hover:bg-gray-50">
                 <td className="px-4 py-3">{subcategory.name}</td>
-                <td className="px-4 py-3">{subcategory.category?.name || "No Category"}</td>
+                <td className="px-4 py-3">
+                  {subcategory.category?.name || "No Category"}
+                </td>
                 <td className="px-4 py-3">
                   {subcategory.image ? (
                     <img

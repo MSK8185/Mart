@@ -1,24 +1,26 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const SearchBar = () => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!query.trim()) {
-      setError('Please enter a search term');
+      setError("Please enter a search term");
       return;
     }
     setLoading(true);
-    setError('');
-    
+    setError("");
+
     try {
-      const response = await fetch(`http://localhost:3000/api/search?q=${query}`);
+      const response = await fetch(
+        `http://20.40.59.234:3000/api/search?q=${query}`
+      );
       if (!response.ok) {
-        throw new Error('Error fetching search results');
+        throw new Error("Error fetching search results");
       }
       const data = await response.json();
       setResults(data);

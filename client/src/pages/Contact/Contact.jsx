@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
-import './Contact.css';
-import { FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+import "./Contact.css";
+import { FaMapMarkerAlt, FaPhone, FaEnvelope } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
   const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = (e) => {
@@ -18,10 +22,10 @@ const Contact = () => {
     setSubmitted(true);
 
     try {
-      const response = await fetch('http://localhost:3000/api/contact', {
-        method: 'POST',
+      const response = await fetch("http://20.40.59.234:3000/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -29,22 +33,22 @@ const Contact = () => {
       const data = await response.json();
 
       if (response.ok) {
-        toast.success('✅ Your message has been sent successfully!', {
-          position: 'top-center',
+        toast.success("✅ Your message has been sent successfully!", {
+          position: "top-center",
           style: {
-            backgroundColor: '#28a745',
-            color: '#fff',
-            fontWeight: 'bold',
+            backgroundColor: "#28a745",
+            color: "#fff",
+            fontWeight: "bold",
           },
-          icon: '📩',
+          icon: "📩",
         });
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ name: "", email: "", message: "" });
       } else {
-        toast.error('❌ Failed to send message: ' + data.error);
+        toast.error("❌ Failed to send message: " + data.error);
       }
     } catch (error) {
-      console.error('Error submitting contact form:', error);
-      toast.error('❌ An error occurred. Please try again later.');
+      console.error("Error submitting contact form:", error);
+      toast.error("❌ An error occurred. Please try again later.");
     } finally {
       setSubmitted(false);
     }
@@ -66,7 +70,9 @@ const Contact = () => {
         theme="colored"
       />
 
-      <h1 className="text-4xl font-bold text-blue-700 text-center my-14">Contact Us</h1>
+      <h1 className="text-4xl font-bold text-blue-700 text-center my-14">
+        Contact Us
+      </h1>
       <div className="contact-content">
         {/* Contact Info */}
         <div className="contact-info">
@@ -89,7 +95,9 @@ const Contact = () => {
 
         {/* Contact Form */}
         <div className="contact-form-container">
-          <h2 className="text-3xl font-bold text-blue-700 text-center mb-4">Any Queries</h2>
+          <h2 className="text-3xl font-bold text-blue-700 text-center mb-4">
+            Any Queries
+          </h2>
           <form className="contact-form" onSubmit={handleSubmit}>
             <label className="form-label">Name</label>
             <input
@@ -117,8 +125,12 @@ const Contact = () => {
               className="form-textarea"
               required
             ></textarea>
-            <button type="submit" className="submit-button" disabled={submitted}>
-              {submitted ? 'Sending...' : 'Send Message'}
+            <button
+              type="submit"
+              className="submit-button"
+              disabled={submitted}
+            >
+              {submitted ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>

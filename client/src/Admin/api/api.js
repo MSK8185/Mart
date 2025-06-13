@@ -1,12 +1,14 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API = axios.create({ baseURL: 'http://localhost:3000/api/admin/categories/' });
+const API = axios.create({
+  baseURL: "http://20.40.59.234:3000/api/admin/categories/",
+});
 
-export const getCategories = () => API.get('/');
+export const getCategories = () => API.get("/");
 export const addCategory = (categoryData) => {
-  return API.post('/addCategories', categoryData, {
+  return API.post("/addCategories", categoryData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data",
     },
   });
 };

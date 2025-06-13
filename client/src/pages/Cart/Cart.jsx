@@ -20,12 +20,12 @@ const Cart = () => {
   const [productDetails, setProductDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
-  
+
   // Coupon related states
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [couponLoading, setCouponLoading] = useState(false);
-  const [couponMessage, setCouponMessage] = useState({ type: '', text: '' });
+  const [couponMessage, setCouponMessage] = useState({ type: "", text: "" });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -42,9 +42,9 @@ const Cart = () => {
   useEffect(() => {
     if (couponMessage.text) {
       const timer = setTimeout(() => {
-        setCouponMessage({ type: '', text: '' });
+        setCouponMessage({ type: "", text: "" });
       }, 3000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [couponMessage]);
@@ -58,7 +58,7 @@ const Cart = () => {
 
         // Step 1: Get cart items
         const cartResponse = await axios.get(
-          `http://localhost:3000/api/cart/${userEmail}`
+          `http://20.40.59.234:3000/api/cart/${userEmail}`
         );
         const cartItems = cartResponse.data;
 
@@ -66,7 +66,7 @@ const Cart = () => {
 
         // Step 2: Fetch all product details in parallel
         const productDetailRequests = cartItems.map((item) =>
-          axios.get(`http://localhost:3000/api/products/${item.productId}`)
+          axios.get(`http://20.40.59.234:3000/api/products/${item.productId}`)
         );
 
         const productResponses = await Promise.all(productDetailRequests);
@@ -86,7 +86,7 @@ const Cart = () => {
 
   const removeFromCart = (product) => {
     dispatch(remove(product));
-    axios.post("http://localhost:3000/api/cart/removeItem", {
+    axios.post("http://20.40.59.234:3000/api/cart/removeItem", {
       email: userEmail,
       productId: product.productId,
     });
@@ -95,7 +95,7 @@ const Cart = () => {
   // Increment product quantity & sync with backend
   const incrementQuantity = (product) => {
     dispatch(increment(product));
-    axios.post("http://localhost:3000/api/cart/incrementCart", {
+    axios.post("http://20.40.59.234:3000/api/cart/incrementCart", {
       ...product,
       email: userEmail,
     });
@@ -104,7 +104,7 @@ const Cart = () => {
   // Decrement product quantity & sync with backend
   const decrementQuantity = (product) => {
     dispatch(decrement(product));
-    axios.post("http://localhost:3000/api/cart/remove", {
+    axios.post("http://20.40.59.234:3000/api/cart/remove", {
       email: userEmail,
       productId: product.productId,
     });
@@ -134,7 +134,7 @@ const Cart = () => {
 
   // Calculate subtotal (before coupon discount)
   const subtotal = cartItems.reduce((total, item) => {
-    const product = productDetails.find(p => p.productId === item.productId);
+    const product = productDetails.find((p) => p.productId === item.productId);
     if (!product) return total;
     const unitPrice = getUnitPrice(product, item.quantity);
     return total + parseFloat(unitPrice) * item.quantity;
@@ -143,33 +143,42 @@ const Cart = () => {
   // Apply coupon validation (without marking as used)
   const applyCoupon = async () => {
     if (!couponCode.trim()) {
-      setCouponMessage({ type: 'error', text: 'Please enter a coupon code' });
+      setCouponMessage({ type: "error", text: "Please enter a coupon code" });
       return;
     }
 
     if (appliedCoupon) {
-      setCouponMessage({ type: 'error', text: 'A coupon is already applied' });
+      setCouponMessage({ type: "error", text: "A coupon is already applied" });
       return;
     }
 
     try {
       setCouponLoading(true);
-      const response = await axios.post('http://localhost:3000/api/admin/vouchers/validateVoucher', {
-        code: couponCode.trim().toUpperCase(),
-        purchaseAmount: subtotal,
-        userEmail: userEmail
-      });
+      const response = await axios.post(
+        "http://20.40.59.234:3000/api/admin/vouchers/validateVoucher",
+        {
+          code: couponCode.trim().toUpperCase(),
+          purchaseAmount: subtotal,
+          userEmail: userEmail,
+        }
+      );
 
       if (response.data.success) {
         setAppliedCoupon(response.data.voucher);
-        setCouponMessage({ type: 'success', text: 'Coupon applied successfully!' });
+        setCouponMessage({
+          type: "success",
+          text: "Coupon applied successfully!",
+        });
       } else {
-        setCouponMessage({ type: 'error', text: response.data.message || 'Invalid coupon code' });
+        setCouponMessage({
+          type: "error",
+          text: response.data.message || "Invalid coupon code",
+        });
       }
     } catch (error) {
-      setCouponMessage({ 
-        type: 'error', 
-        text: error.response?.data?.message || 'Failed to validate coupon' 
+      setCouponMessage({
+        type: "error",
+        text: error.response?.data?.message || "Failed to validate coupon",
       });
     } finally {
       setCouponLoading(false);
@@ -180,7 +189,7 @@ const Cart = () => {
   const removeCoupon = () => {
     setAppliedCoupon(null);
     setCouponCode("");
-    setCouponMessage({ type: 'success', text: 'Coupon removed' });
+    setCouponMessage({ type: "success", text: "Coupon removed" });
   };
 
   // Calculate discount amount
@@ -188,7 +197,7 @@ const Cart = () => {
     if (!appliedCoupon) return 0;
 
     let discount = 0;
-    if (appliedCoupon.type === 'percentage') {
+    if (appliedCoupon.type === "percentage") {
       discount = (subtotal * appliedCoupon.discount) / 100;
       // Apply max discount limit if exists
       if (appliedCoupon.maxDiscount && discount > appliedCoupon.maxDiscount) {
@@ -219,7 +228,7 @@ const Cart = () => {
     try {
       // Step 1: Create a Razorpay order
       const { data: order } = await axios.post(
-        "http://localhost:3000/api/create-razorpay-order",
+        "http://20.40.59.234:3000/api/create-razorpay-order",
         { amount: totalAmount }
       );
 
@@ -234,7 +243,7 @@ const Cart = () => {
           try {
             // Step 2: Verify payment and save order details
             const verification = await axios.post(
-              "http://localhost:3000/api/verify-razorpay-payment",
+              "http://20.40.59.234:3000/api/verify-razorpay-payment",
               {
                 razorpayOrderId: response.razorpay_order_id,
                 razorpayPaymentId: response.razorpay_payment_id,
@@ -257,29 +266,34 @@ const Cart = () => {
               // Mark coupon as used only after successful payment
               if (appliedCoupon) {
                 try {
-                  await axios.post('http://localhost:3000/api/admin/vouchers/use', {
-                    code: appliedCoupon.code,
-                    userEmail: userEmail,
-                    orderAmount: totalAmount,
-                    orderId: verification.data.orderId || response.razorpay_payment_id
-                  });
+                  await axios.post(
+                    "http://20.40.59.234:3000/api/admin/vouchers/use",
+                    {
+                      code: appliedCoupon.code,
+                      userEmail: userEmail,
+                      orderAmount: totalAmount,
+                      orderId:
+                        verification.data.orderId ||
+                        response.razorpay_payment_id,
+                    }
+                  );
                 } catch (couponError) {
-                  console.error('Error marking coupon as used:', couponError);
+                  console.error("Error marking coupon as used:", couponError);
                   // Don't fail the entire process if coupon marking fails
                 }
               }
 
-              await axios.post("http://localhost:3000/api/cart/clear", {
+              await axios.post("http://20.40.59.234:3000/api/cart/clear", {
                 email: userEmail,
               });
-              
+
               // Clear the Redux store cart
               dispatch(setCart([]));
-              
+
               // Reset coupon state
               setAppliedCoupon(null);
               setCouponCode("");
-              
+
               navigate("/orderplaced");
             } else {
               alert("Payment verification failed!");
@@ -390,7 +404,11 @@ const Cart = () => {
                           <td className="p-4 flex justify-between items-center">
                             <p className="text-gray-600">
                               Rs.{" "}
-                              {(parseFloat(getUnitPrice(product, item.quantity)) * item.quantity).toFixed(2)}
+                              {(
+                                parseFloat(
+                                  getUnitPrice(product, item.quantity)
+                                ) * item.quantity
+                              ).toFixed(2)}
                             </p>
                             <button
                               onClick={() => removeFromCart(item)}
@@ -413,14 +431,16 @@ const Cart = () => {
             {/* Coupon Section */}
             <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-md">
               <h3 className="text-lg font-semibold mb-4">Have a Coupon?</h3>
-              
+
               {/* Coupon Message */}
               {couponMessage.text && (
-                <div className={`p-3 mb-4 rounded text-sm ${
-                  couponMessage.type === 'error' 
-                    ? 'bg-red-100 text-red-700 border border-red-200' 
-                    : 'bg-green-100 text-green-700 border border-green-200'
-                }`}>
+                <div
+                  className={`p-3 mb-4 rounded text-sm ${
+                    couponMessage.type === "error"
+                      ? "bg-red-100 text-red-700 border border-red-200"
+                      : "bg-green-100 text-green-700 border border-green-200"
+                  }`}
+                >
                   {couponMessage.text}
                 </div>
               )}
@@ -431,7 +451,9 @@ const Cart = () => {
                     type="text"
                     placeholder="Enter coupon code"
                     value={couponCode}
-                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    onChange={(e) =>
+                      setCouponCode(e.target.value.toUpperCase())
+                    }
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     disabled={couponLoading}
                   />
@@ -440,7 +462,7 @@ const Cart = () => {
                     disabled={couponLoading || !couponCode.trim()}
                     className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
                   >
-                    {couponLoading ? 'Validating...' : 'Apply Coupon'}
+                    {couponLoading ? "Validating..." : "Apply Coupon"}
                   </button>
                 </div>
               ) : (
@@ -451,8 +473,8 @@ const Cart = () => {
                         Coupon Applied: {appliedCoupon.code}
                       </p>
                       <p className="text-sm text-green-600">
-                        {appliedCoupon.type === 'percentage' 
-                          ? `${appliedCoupon.discount}% discount` 
+                        {appliedCoupon.type === "percentage"
+                          ? `${appliedCoupon.discount}% discount`
                           : `₹${appliedCoupon.discount} off`}
                       </p>
                     </div>
@@ -470,13 +492,13 @@ const Cart = () => {
             {/* Cart Totals */}
             <div className="p-6 bg-beige-100 rounded-lg shadow-md">
               <h3 className="text-xl font-semibold mb-4">Cart Totals</h3>
-              
+
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <p>Subtotal</p>
                   <p>Rs. {subtotal.toFixed(2)}</p>
                 </div>
-                
+
                 {appliedCoupon && discountAmount > 0 && (
                   <>
                     <div className="flex justify-between text-green-600">
@@ -486,13 +508,13 @@ const Cart = () => {
                     <hr className="border-gray-300" />
                   </>
                 )}
-                
+
                 <div className="flex justify-between font-bold text-lg">
                   <p>Total</p>
                   <p>Rs. {totalAmount.toFixed(2)}</p>
                 </div>
               </div>
-              
+
               <button
                 onClick={handleCheckout}
                 disabled={cartItems.length === 0 || loading}

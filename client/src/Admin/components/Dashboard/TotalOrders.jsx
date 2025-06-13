@@ -8,7 +8,9 @@ const TotalOrders = () => {
   useEffect(() => {
     const fetchTotalOrders = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/orders/total-orders");
+        const response = await fetch(
+          "http://20.40.59.234:3000/api/orders/total-orders"
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch total orders");
         }

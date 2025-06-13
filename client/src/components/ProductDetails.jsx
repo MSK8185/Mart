@@ -12,7 +12,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
 const ProductDetails = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
@@ -31,19 +30,21 @@ const ProductDetails = () => {
 
   const [error, setError] = useState("");
   const [similarProducts, setSimilarProducts] = useState([]);
-  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImage, setSelectedImage] = useState("");
   const user = auth.currentUser;
 
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/products/${productId}`);
+        const response = await axios.get(
+          `http://20.40.59.234:3000/api/products/${productId}`
+        );
         const productData = response.data;
         setProduct(productData);
         setPurchaseQty(productData.MOQ || 1);
         setSelectedImage(productData.image); // Set initial main image
       } catch (error) {
-        console.error('Error fetching product details:', error);
+        console.error("Error fetching product details:", error);
       }
     };
 
@@ -55,7 +56,7 @@ const ProductDetails = () => {
       if (product?.subCategory) {
         try {
           const response = await axios.post(
-            "http://localhost:3000/api/products/similarProducts",
+            "http://20.40.59.234:3000/api/products/similarProducts",
             {
               subCategory: product.subCategory,
             }
@@ -109,7 +110,7 @@ const ProductDetails = () => {
     };
 
     try {
-      await axios.post("http://localhost:3000/api/cart/add", cartItem);
+      await axios.post("http://20.40.59.234:3000/api/cart/add", cartItem);
       dispatch(add(cartItem));
       showNotification(product.name);
     } catch (error) {
@@ -132,7 +133,6 @@ const ProductDetails = () => {
       setWishlistNotification({ visible: false, productName: "" });
     }, 3000); // 3 seconds
   };
-
 
   const getUnitPrice = () => {
     let unitPrice = product.price;
@@ -158,14 +158,16 @@ const ProductDetails = () => {
             <BsFillCartCheckFill className="animate-pulse" />
             {notification.productName} added to cart!
           </p>
-
-
         </div>
       )}
       {wishlistNotification.visible && (
         <div className=" top-20 right-1/3 bg-cyan-600 notify-box animate-fade-in ">
           <p className="flex items-center gap-2">
-            <svg className="w-5 h-5 text-white animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+            <svg
+              className="w-5 h-5 text-white animate-pulse"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
               <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 18.343 3.172 10.828a4 4 0 010-5.656z" />
             </svg>
             {wishlistNotification.productName} added to wishlist!
@@ -214,16 +216,16 @@ const ProductDetails = () => {
                   key={idx}
                   src={img}
                   onClick={() => setSelectedImage(img)}
-                  className={`w-16 h-16 object-cover rounded-md border-2 cursor-pointer transition-all ${selectedImage === img
+                  className={`w-16 h-16 object-cover rounded-md border-2 cursor-pointer transition-all ${
+                    selectedImage === img
                       ? "border-cyan-600 ring-2 ring-cyan-300"
                       : "border-gray-300"
-                    }`}
+                  }`}
                   alt={`Preview ${idx}`}
                 />
               ))}
             </div>
           </div>
-
 
           {/* DESKTOP ZOOM IMAGE */}
           <div className="hidden lg:block aspect-[4/3] max-w-full mx-auto">
@@ -233,7 +235,7 @@ const ProductDetails = () => {
                   alt: product.name,
                   isFluidWidth: false,
                   src: selectedImage,
-                  width: 500,          
+                  width: 500,
                   height: 500,
                   style: {
                     objectFit: "cover",
@@ -242,7 +244,6 @@ const ProductDetails = () => {
                     height: "auto",
                     aspectRatio: "1 / 1",
                     maxWidth: "200px",
-
                   },
                 },
                 largeImage: {
@@ -265,16 +266,16 @@ const ProductDetails = () => {
                 key={idx}
                 src={img}
                 onClick={() => setSelectedImage(img)}
-                className={`w-20 h-20 object-cover rounded-md border-2 cursor-pointer transition-all ${selectedImage === img
+                className={`w-20 h-20 object-cover rounded-md border-2 cursor-pointer transition-all ${
+                  selectedImage === img
                     ? "border-cyan-600 ring-2 ring-cyan-300"
                     : "border-gray-300"
-                  }`}
+                }`}
                 alt={`Preview ${idx}`}
               />
             ))}
           </div>
         </div>
-
 
         {/* Details Section */}
 
@@ -288,8 +289,12 @@ const ProductDetails = () => {
           </p>
 
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-            <p className="text-xl sm:text-2xl font-bold text-cyan-700">Rs. {getUnitPrice()}</p>
-            <p className="text-base sm:text-xl text-gray-600 line-through">Rs. {product.originalprice}</p>
+            <p className="text-xl sm:text-2xl font-bold text-cyan-700">
+              Rs. {getUnitPrice()}
+            </p>
+            <p className="text-base sm:text-xl text-gray-600 line-through">
+              Rs. {product.originalprice}
+            </p>
           </div>
 
           <p className="text-sm text-gray-700 font-medium">
@@ -298,7 +303,9 @@ const ProductDetails = () => {
 
           {product.bulkPricing?.length > 0 && (
             <div className="mt-4 sm:mt-6">
-              <h2 className="text-base sm:text-lg font-semibold mb-3">Bulk Pricing</h2>
+              <h2 className="text-base sm:text-lg font-semibold mb-3">
+                Bulk Pricing
+              </h2>
 
               <div className="hidden sm:block">
                 <table className="min-w-full border text-sm text-left">
@@ -311,8 +318,12 @@ const ProductDetails = () => {
                   <tbody>
                     {product.bulkPricing.map((tier, index) => (
                       <tr key={index} className="hover:bg-cyan-50 transition">
-                        <td className="py-2 px-4 border text-center">{tier.minQty}</td>
-                        <td className="py-2 px-4 border text-center">Rs. {tier.pricePerUnit}</td>
+                        <td className="py-2 px-4 border text-center">
+                          {tier.minQty}
+                        </td>
+                        <td className="py-2 px-4 border text-center">
+                          Rs. {tier.pricePerUnit}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -322,7 +333,10 @@ const ProductDetails = () => {
               {/* Bulk Pricing - Mobile Cards */}
               <div className="sm:hidden space-y-4">
                 {product.bulkPricing.map((tier, index) => (
-                  <div key={index} className="p-3 rounded-md border shadow-sm bg-gray-50">
+                  <div
+                    key={index}
+                    className="p-3 rounded-md border shadow-sm bg-gray-50"
+                  >
                     <p className="text-sm">
                       <strong>Qty:</strong> {tier.minQty}+
                     </p>
@@ -332,12 +346,14 @@ const ProductDetails = () => {
                   </div>
                 ))}
               </div>
-
             </div>
           )}
 
           <div className="flex flex-col">
-            <label htmlFor="purchaseQty" className="mb-1 text-sm font-medium text-gray-700">
+            <label
+              htmlFor="purchaseQty"
+              className="mb-1 text-sm font-medium text-gray-700"
+            >
               Enter Quantity:
             </label>
 
@@ -363,26 +379,28 @@ const ProductDetails = () => {
               className="w-28 sm:w-32 p-2 border rounded-md shadow-sm focus:ring-2 focus:ring-cyan-500 focus:outline-none"
             />
             {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-
           </div>
 
           <div className="flex flex-wrap gap-3 sm:gap-4 items-center">
-
             <button
               onClick={addToCart}
-              disabled={purchaseQty < product.MOQ || purchaseQty > product.stock}
-              className={`w-full sm:w-40 h-11 sm:h-12 text-white font-medium rounded-md shadow transition ${purchaseQty < product.MOQ || purchaseQty > product.stock
+              disabled={
+                purchaseQty < product.MOQ || purchaseQty > product.stock
+              }
+              className={`w-full sm:w-40 h-11 sm:h-12 text-white font-medium rounded-md shadow transition ${
+                purchaseQty < product.MOQ || purchaseQty > product.stock
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-gradient-to-r from-cyan-700 to-cyan-800 hover:from-cyan-600 hover:to-cyan-700"
-                }`}
+              }`}
             >
               Add to Cart
             </button>
 
             <button
               onClick={handleWishlist}
-              className={`flex items-center gap-2 text-sm sm:text-base ${isWishlisted ? "text-red-500" : "text-gray-500"
-                } hover:text-red-600 transition`}
+              className={`flex items-center gap-2 text-sm sm:text-base ${
+                isWishlisted ? "text-red-500" : "text-gray-500"
+              } hover:text-red-600 transition`}
             >
               <FaHeart />
               <span>{isWishlisted ? "Wishlisted" : "Add to Wishlist"}</span>
@@ -420,7 +438,9 @@ const ProductDetails = () => {
                 <h3 className="text-base sm:text-lg font-semibold text-gray-900 line-clamp-2">
                   {item.name}
                 </h3>
-                <p className="text-sm sm:text-base text-gray-600">Rs. {item.price}</p>
+                <p className="text-sm sm:text-base text-gray-600">
+                  Rs. {item.price}
+                </p>
                 <button
                   onClick={() => navigate(`/product-details/${item.productId}`)}
                   className="mt-2 text-cyan-600 hover:underline text-sm"

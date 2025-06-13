@@ -2,11 +2,9 @@ import React, { useState } from "react";
 
 const SubCategoryForm = ({ categories, onSuccess }) => {
   const [name, setName] = useState("");
-  const [category, setCategory] = useState(""); 
+  const [category, setCategory] = useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,18 +12,21 @@ const SubCategoryForm = ({ categories, onSuccess }) => {
 
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("category", category); 
+    formData.append("category", category);
     formData.append("image", image);
 
     try {
-      const response = await fetch("http://localhost:3000/api/admin/subcategories", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "http://20.40.59.234:3000/api/admin/subcategories",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const data = await response.json();
       if (response.ok) {
-        onSuccess(data.subcategory); 
+        onSuccess(data.subcategory);
         setName("");
         setCategory("");
         setImage(null);
@@ -42,7 +43,10 @@ const SubCategoryForm = ({ categories, onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 border  rounded-lg font-poppins">
+    <form
+      onSubmit={handleSubmit}
+      className="p-4 border  rounded-lg font-poppins"
+    >
       <div className="mb-4">
         <label htmlFor="name" className="block mb-1">
           Subcategory Name
@@ -64,7 +68,7 @@ const SubCategoryForm = ({ categories, onSuccess }) => {
         <select
           id="category"
           value={category}
-          onChange={(e) => setCategory(e.target.value)} 
+          onChange={(e) => setCategory(e.target.value)}
           className="w-full border px-3 py-2 rounded"
           required
         >

@@ -1,18 +1,18 @@
-import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const BusinessVerification = () => {
   const [businesses, setBusinesses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [pdfUrl, setPdfUrl] = useState('');
+  const [error, setError] = useState("");
+  const [pdfUrl, setPdfUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('All');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
   const topRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
@@ -20,7 +20,7 @@ const BusinessVerification = () => {
 
   // New states for rejection popup
   const [showRejectModal, setShowRejectModal] = useState(false);
-  const [rejectionRemarks, setRejectionRemarks] = useState('');
+  const [rejectionRemarks, setRejectionRemarks] = useState("");
   const [selectedBusinessId, setSelectedBusinessId] = useState(null);
 
   useEffect(() => {
@@ -34,10 +34,10 @@ const BusinessVerification = () => {
         scale: 0.95,
         duration: 0.6,
         stagger: 0.15,
-        ease: 'power3.out',
+        ease: "power3.out",
         scrollTrigger: {
-          trigger: '.business-grid',
-          start: 'top 85%',
+          trigger: ".business-grid",
+          start: "top 85%",
         },
       });
     }
@@ -45,62 +45,63 @@ const BusinessVerification = () => {
 
   const fetchBusinesses = () => {
     axios
-      .get('http://localhost:3000/api/business')
+      .get("http://20.40.59.234:3000/api/business")
       .then((res) => {
         setBusinesses(res.data);
         setLoading(false);
       })
       .catch((err) => {
         console.error(err);
-        setError('Failed to fetch data');
+        setError("Failed to fetch data");
         setLoading(false);
       });
   };
 
   const openPdf = (fileName) => {
-    const url = fileName.startsWith('http') ? fileName : `http://localhost:3000/uploads/${fileName}`;
+    const url = fileName.startsWith("http")
+      ? fileName
+      : `http://20.40.59.234:3000/uploads/${fileName}`;
     setPdfUrl(url);
     setShowModal(true);
   };
 
   const closeModal = () => {
-    setPdfUrl('');
+    setPdfUrl("");
     setShowModal(false);
   };
 
-  const updateStatus = async (id, status, remarks = '') => {
-    if (status === 'Rejected' && !remarks.trim()) {
-      alert('Please enter rejection remarks');
+  const updateStatus = async (id, status, remarks = "") => {
+    if (status === "Rejected" && !remarks.trim()) {
+      alert("Please enter rejection remarks");
       return;
     }
 
     try {
-      await axios.put(`http://localhost:3000/api/business/${id}/status`, {
+      await axios.put(`http://20.40.59.234:3000/api/business/${id}/status`, {
         status,
-        ...(status === 'Rejected' && { remarks }),
+        ...(status === "Rejected" && { remarks }),
       });
 
       setBusinesses((prev) =>
         prev.map((biz) =>
           biz._id === id
             ? {
-              ...biz,
-              status,
-              ...(status === 'Rejected' && { rejectionRemarks: remarks }),
-            }
+                ...biz,
+                status,
+                ...(status === "Rejected" && { rejectionRemarks: remarks }),
+              }
             : biz
         )
       );
 
-      if (status === 'Rejected') {
+      if (status === "Rejected") {
         closeRejectModal();
       }
     } catch (err) {
-      console.error('Failed to update status', err);
+      console.error("Failed to update status", err);
       alert(`${status} update failed`);
     }
   };
-
 
   // New function to handle rejection with remarks
   const handleRejectClick = (businessId) => {
@@ -110,48 +111,59 @@ const BusinessVerification = () => {
 
   const closeRejectModal = () => {
     setShowRejectModal(false);
-    setRejectionRemarks('');
+    setRejectionRemarks("");
     setSelectedBusinessId(null);
   };
 
   const submitRejection = async () => {
     if (!rejectionRemarks.trim()) {
-      alert('Please enter rejection remarks');
+      alert("Please enter rejection remarks");
       return;
     }
 
     try {
-      await axios.put(`http://localhost:3000/api/business/${selectedBusinessId}/status`, {
-        status: 'Rejected',
-        remarks: rejectionRemarks
-      });
+      await axios.put(
+        `http://20.40.59.234:3000/api/business/${selectedBusinessId}/status`,
+        {
+          status: "Rejected",
+          remarks: rejectionRemarks,
+        }
+      );
 
       setBusinesses((prev) =>
         prev.map((biz) =>
-          biz._id === selectedBusinessId ? { ...biz, status: 'Rejected', rejectionRemarks } : biz
+          biz._id === selectedBusinessId
+            ? { ...biz, status: "Rejected", rejectionRemarks }
+            : biz
         )
       );
 
       closeRejectModal();
     } catch (err) {
-      console.error('Failed to reject business', err);
-      alert('Rejection failed');
+      console.error("Failed to reject business", err);
+      alert("Rejection failed");
     }
   };
 
   const filteredBusinesses = businesses.filter((business) => {
     const matchesSearch =
-      business.businessName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      business.businessName
+        ?.toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
       business.userEmail?.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = statusFilter === 'All' || business.status === statusFilter;
+    const matchesStatus =
+      statusFilter === "All" || business.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
   const totalPages = Math.ceil(filteredBusinesses.length / itemsPerPage);
-  const paginatedBusinesses = filteredBusinesses.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedBusinesses = filteredBusinesses.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   const scrollToTop = () => {
-    topRef.current?.scrollIntoView({ behavior: 'smooth' });
+    topRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handlePrevPage = () => {
@@ -181,8 +193,13 @@ const BusinessVerification = () => {
   if (error) return <p className="text-red-500 text-center">{error}</p>;
 
   return (
-    <div className="p-6 font-poppins bg-gray-50 min-h-screen overflow-x-hidden" ref={topRef}>
-      <h2 className="text-3xl font-bold mb-8 text-gray-800">Business Verification</h2>
+    <div
+      className="p-6 font-poppins bg-gray-50 min-h-screen overflow-x-hidden"
+      ref={topRef}
+    >
+      <h2 className="text-3xl font-bold mb-8 text-gray-800">
+        Business Verification
+      </h2>
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
         <input
           type="text"
@@ -206,11 +223,11 @@ const BusinessVerification = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 business-grid">
         {paginatedBusinesses.map((business, index) => {
           const statusColor =
-            business.status === 'Verified'
-              ? 'border-green-400'
-              : business.status === 'Rejected'
-                ? 'border-red-400'
-                : 'border-yellow-400';
+            business.status === "Verified"
+              ? "border-green-400"
+              : business.status === "Rejected"
+              ? "border-red-400"
+              : "border-yellow-400";
 
           return (
             <div
@@ -218,29 +235,49 @@ const BusinessVerification = () => {
               ref={(el) => (cardRefs.current[index] = el)}
               className={`bg-white border-l-4 ${statusColor} rounded-xl shadow-lg p-6 transform transition-transform hover:scale-[1.02] hover:shadow-xl`}
             >
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">{business.businessName}</h3>
-              <p className="text-gray-600"><strong>Email Id:</strong> {business.userEmail}</p>
-              <p className="text-gray-600"><strong>PAN:</strong> {business.panNumber}</p>
-              <p className="text-gray-600"><strong>GSTIN:</strong> {business.gstin}</p>
-              <p className="text-gray-600"><strong>Address:</strong> {business.businessAddress}</p>
-              <p className="text-gray-600"><strong>Created At:</strong> {new Date(business.createdAt).toLocaleString()}</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                {business.businessName}
+              </h3>
+              <p className="text-gray-600">
+                <strong>Email Id:</strong> {business.userEmail}
+              </p>
+              <p className="text-gray-600">
+                <strong>PAN:</strong> {business.panNumber}
+              </p>
+              <p className="text-gray-600">
+                <strong>GSTIN:</strong> {business.gstin}
+              </p>
+              <p className="text-gray-600">
+                <strong>Address:</strong> {business.businessAddress}
+              </p>
+              <p className="text-gray-600">
+                <strong>Created At:</strong>{" "}
+                {new Date(business.createdAt).toLocaleString()}
+              </p>
               <p className="mt-2">
                 <strong>Status:</strong>
-                <span className={`ml-2 font-semibold ${business.status === 'Verified'
-                  ? 'text-green-600'
-                  : business.status === 'Rejected'
-                    ? 'text-red-600'
-                    : 'text-yellow-600'
-                  }`}>
-                  {business.status || 'Pending'}
+                <span
+                  className={`ml-2 font-semibold ${
+                    business.status === "Verified"
+                      ? "text-green-600"
+                      : business.status === "Rejected"
+                      ? "text-red-600"
+                      : "text-yellow-600"
+                  }`}
+                >
+                  {business.status || "Pending"}
                 </span>
               </p>
 
               {/* Show rejection remarks if available */}
-              {business.status === 'Rejected' && business.rejectionRemarks && (
+              {business.status === "Rejected" && business.rejectionRemarks && (
                 <div className="mt-3 p-3 bg-red-50 rounded-lg border border-red-200">
-                  <p className="text-sm text-red-700"><strong>Rejection Reason:</strong></p>
-                  <p className="text-sm text-red-600">{business.rejectionRemarks}</p>
+                  <p className="text-sm text-red-700">
+                    <strong>Rejection Reason:</strong>
+                  </p>
+                  <p className="text-sm text-red-600">
+                    {business.rejectionRemarks}
+                  </p>
                 </div>
               )}
 
@@ -261,7 +298,7 @@ const BusinessVerification = () => {
 
               <div className="flex gap-3 mt-4">
                 <button
-                  onClick={() => updateStatus(business._id, 'Verified')}
+                  onClick={() => updateStatus(business._id, "Verified")}
                   className="px-4 py-1.5 rounded-md bg-green-600 text-white hover:bg-green-700 transition-all"
                 >
                   Verify
@@ -301,8 +338,12 @@ const BusinessVerification = () => {
       {showRejectModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm">
           <div className="bg-white p-6 rounded-xl w-full max-w-md mx-4 shadow-2xl">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Reject Business Application</h3>
-            <p className="text-gray-600 mb-4">Please provide a reason for rejection:</p>
+            <h3 className="text-xl font-bold text-gray-800 mb-4">
+              Reject Business Application
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Please provide a reason for rejection:
+            </p>
 
             <textarea
               value={rejectionRemarks}
@@ -319,7 +360,9 @@ const BusinessVerification = () => {
                 Cancel
               </button>
               <button
-                onClick={() => updateStatus(selectedBusinessId, 'Rejected', rejectionRemarks)}
+                onClick={() =>
+                  updateStatus(selectedBusinessId, "Rejected", rejectionRemarks)
+                }
                 className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors"
               >
                 Reject Application
@@ -331,15 +374,35 @@ const BusinessVerification = () => {
 
       {/* Pagination */}
       <div className="flex justify-center space-x-2 mt-32">
-        <button onClick={handlePrevPage} disabled={currentPage === 1} className={`px-3 py-1 border rounded ${currentPage === 1 ? 'bg-gray-300' : 'bg-gray-100'}`} >
+        <button
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+          className={`px-3 py-1 border rounded ${
+            currentPage === 1 ? "bg-gray-300" : "bg-gray-100"
+          }`}
+        >
           Previous
         </button>
         {Array.from({ length: totalPages }, (_, index) => (
-          <button key={index + 1} onClick={() => handlePageClick(index + 1)} className={`px-4 py-2 mx-1 rounded ${currentPage === index + 1 ? 'bg-yellow-600 text-white' : 'bg-gray-200'}`} >
+          <button
+            key={index + 1}
+            onClick={() => handlePageClick(index + 1)}
+            className={`px-4 py-2 mx-1 rounded ${
+              currentPage === index + 1
+                ? "bg-yellow-600 text-white"
+                : "bg-gray-200"
+            }`}
+          >
             {index + 1}
           </button>
         ))}
-        <button onClick={handleNextPage} disabled={currentPage === totalPages} className={`px-3 py-1 border rounded ${currentPage === totalPages ? 'bg-gray-300' : 'bg-gray-100'}`} >
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className={`px-3 py-1 border rounded ${
+            currentPage === totalPages ? "bg-gray-300" : "bg-gray-100"
+          }`}
+        >
           Next
         </button>
       </div>
