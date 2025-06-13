@@ -6,7 +6,8 @@ import {
 } from "firebase/auth";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
-import SignUpbg from "../../assets/images/signUpbg.png";
+// import SignUpbg from "../../assets/images/signUpbg.png";
+import SignUpbg from "../../assets/images/signupbg.png"
 import axios from "axios";
 
 const SignIn = () => {
