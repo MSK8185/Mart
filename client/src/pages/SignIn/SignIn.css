@@ -1,0 +1,92 @@
+/* src/pages/SignIn.css */
+.signin-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-image: url('C:\QuickMart\client\src\assets\images\bg.jpg');
+    background-color: #f3f4f6;
+    
+  }
+  
+  .signin-box {
+    background-color: #d1fae5;
+    padding: 2.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  /* src/pages/SignIn.css */
+.signin-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;        /* Center text */
+  display: flex;             /* Use flexbox to align items */
+  flex-direction: column;    /* Align icon and text in a column */
+  align-items: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  .icon {
+    font-size: 2rem;
+  }
+  
+  
+  .input-group {
+    margin-bottom: 1rem;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #374151;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    outline: none;
+  }
+  
+  .input-group input:focus {
+    border-color: #3b82f6;
+  }
+  
+  .error-message {
+    color: #ef4444;
+    margin-bottom: 1rem;
+  }
+  
+  .signin-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #308029;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .signin-button:hover {
+    background-color: #21521d;
+  }
+  
+  .signup-link {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .signup-link button {
+    background: none;
+    color: #3b82f6;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  

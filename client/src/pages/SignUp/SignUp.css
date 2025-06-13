@@ -1,0 +1,117 @@
+/* src/pages/SignUp.css */
+/* src/pages/SignUp.css */
+.signup-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+    background-image: url('C:\QuickMart\client\src\assets\images\bg.jpg');
+    background-color: #f3f4f6;
+  }
+  
+  .signup-box {
+    background-color: #d1fae5;
+    padding: 2.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  
+   .icon {
+    font-size: 2rem;
+    display: flex;             /* Enable flexbox layout */
+    justify-content: center;   /* Center icon horizontally */
+    align-items: center;       /* Center icon vertically */
+    margin: 0 auto;           /* Center icon in the container */
+  }
+  
+  .signup-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;        /* Center text */
+    display: flex;             /* Use flexbox to align items */
+    flex-direction: column;    /* Align icon and text in a column */
+    align-items: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;  /* Center items horizontally */
+  }
+  
+  .error-message {
+    color: #ef4444;
+    margin-bottom: 1rem;
+  }
+  
+  .toggle-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .toggle-buttons button {
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: normal;
+  }
+  
+  .toggle-buttons .active {
+    font-weight: bold;
+    ;
+  }
+  
+  .input-group {
+    margin-bottom: 1rem;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #374151;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    outline: none;
+  }
+  
+  .input-group input:focus {
+    border-color: #3b82f6;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #308029;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-button:hover {
+    background-color: #21521d
+  }
+  
+  .verify-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .verify-button:hover {
+    background-color: #059669;
+  }
+  
