@@ -10,7 +10,7 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
-import SignUpbg from "../../assets/images/signUpbg.png";
+import SignUpbg from "../../assets/images/signupbg.png";
 
 const SignUp = () => {
   // User information
